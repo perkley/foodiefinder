@@ -6,8 +6,12 @@
     <p>Current Environment: {{ environment }}</p>
     
     {% if user.is_authenticated %}
-        Logged in
+        Logged in <p>Hello, {{ user.username }}!</p>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
     {% else %}
-        <p>Please log in to see this content.</p>
+        <p>Please <a href="{% url 'login' %}">Log in</a> to see this content.</p>
     {% endif %}
 {% endblock %}
