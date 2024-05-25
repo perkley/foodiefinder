@@ -1,0 +1,108 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploy Django App on EC2 with Elastic IP and Custom Project Name
+
+Parameters:
+  ProjectName:
+    Description: The name of the project to use for the instance and configuration.
+    Type: String
+    Default: foodiefinder
+
+Resources:
+  FoodieFinderInstance:
+    Type: AWS::EC2::Instance
+    Properties: 
+      InstanceType: t2.micro
+      ImageId: ami-04b70fa74e45c3917 # Ubuntu Server 24.04
+      KeyName: vockey
+      SecurityGroups: 
+        - !Ref InstanceSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Ref ProjectName
+      UserData:
+        Fn::Base64: 
+          !Sub |
+            #!/bin/bash
+            sudo apt-get update
+            sudo apt-get upgrade -y
+            sudo apt-get install -y python3-venv nginx supervisor
+            python3 -m venv /home/ubuntu/env
+            source /home/ubuntu/env/bin/activate
+            pip3 install Django gunicorn
+            git clone https://github.com/perkley/${ProjectName}.git /home/ubuntu/${ProjectName}
+            sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings.py
+            python3 /home/ubuntu/${ProjectName}/manage.py migrate
+            python3 /home/ubuntu/${ProjectName}/manage.py collectstatic
+            sudo mkdir /var/log/gunicorn
+            sudo bash -c 'cat > /etc/supervisor/conf.d/gunicorn.conf << EOF
+            [program:gunicorn]
+            directory=/home/ubuntu/${ProjectName}
+            command=/home/ubuntu/env/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/${ProjectName}/app.sock ${ProjectName}.wsgi:application  
+            autostart=true
+            autorestart=true
+            stderr_logfile=/var/log/gunicorn/gunicorn.err.log
+            stdout_logfile=/var/log/gunicorn/gunicorn.out.log
+
+            [group:guni]
+            programs:gunicorn
+            EOF'
+            sudo supervisorctl reread
+            sudo supervisorctl update
+            sudo bash -c 'cat > /etc/nginx/sites-available/django.conf << EOF
+            server {
+              listen 80;
+              server_name ${ElasticIp};
+
+              location / {
+                include proxy_params;
+                proxy_pass http://unix:/home/ubuntu/${ProjectName}/app.sock;
+              }
+              location /static {
+                  # Allow directory listing for debugging purposes (remove in production)
+                  # autoindex on;
+
+                  # Serve static files directly from the configured STATIC_ROOT path
+                  alias /home/ubuntu/${ProjectName}/static/;
+              }
+            }
+            EOF'
+            sudo ln -s /etc/nginx/sites-available/django.conf /etc/nginx/sites-enabled
+            sudo nginx -t
+            sudo service nginx restart
+            sudo supervisorctl reload
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+      GroupDescription: Enable HTTP access
+      SecurityGroupIngress: 
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  ElasticIp:
+    Type: AWS::EC2::EIP
+    Properties: 
+      Domain: vpc
+
+  ElasticIpAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties: 
+      InstanceId: !Ref FoodieFinderInstance
+      EIP: !Ref ElasticIp
+
+Outputs:
+  InstanceId:
+    Description: The instance ID
+    Value: !Ref FoodieFinderInstance
+  ElasticIp:
+    Description: The Elastic IP address
+    Value: !Ref ElasticIp
+  ProjectName:
+    Description: The name of the project
+    Value: !Ref ProjectName
