@@ -2,7 +2,12 @@
 {% load static %}
 
 {% block content %}
-    <h1>Welcome to the Home Page! -Updated</h1>
+    <h1>Welcome to Foodie Finder!</h1>
     <p>Current Environment: {{ environment }}</p>
-    <a href="{% url 'home' %}" title="Home"><img src="{% static 'images/logo/foodie_finder.svg' %}" alt="Foodie Finder Logo"></a>
+    
+    {% if user.is_authenticated %}
+        Logged in
+    {% else %}
+        <p>Please log in to see this content.</p>
+    {% endif %}
 {% endblock %}

@@ -1,51 +1,76 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-  }
+    /* Center content and set background color for outside of the content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: grey;
+}
 
-  .logo {
-    background: #333;
+/* Force website to be in the center like a mobile phone app */
+.mobile_app_container {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    max-width: 500px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ===================================== */
+/* ============ LAYOUT STYLES ========== */
+/* ===================================== */
+.logo {
+    background: #ffeeee;
     color: #fff;
     text-align: center;
-    padding: 20px 0;
-  }
+    /* padding: 5px 0; */
+}
+img#logo {
+    width: 100%;
+    max-height: 100px;
+}
 
-  .search-bar-container {
+.search-bar-container {
     background: #444;
     padding: 10px 20px;
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
+}
 
-  .search-bar {
+.search-bar {
     width: 100%;
-  }
+}
 
-  .search-bar input {
+.search-bar input {
     width: 100%;
     padding: 5px;
     border: none;
     border-radius: 3px;
-  }
+}
 
-  .content {
+.content {
     padding: 20px;
-    height: 2000px; /* Just for demonstration */
-  }
+    min-height: 80vh;
+    /*height: 2000px;  Just for testing sticky header footer */
+}
 
-  .footer {
+.footer {
     position: fixed;
     bottom: 0;
+    max-width: 500px;
     width: 100%;
     background: #333;
     color: #fff;
     text-align: center;
     padding: 10px 0;
     z-index: 1000;
-  }
+}
 
-  h1 {
-    color:red;
-  }
+
+/* ===================================== */
+/* =========== COMPONENT STYLES ======== */
+/* ===================================== */

@@ -2,33 +2,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
   
-  <title>Sticky Header and Footer</title>
+    <title>Foodie Finder</title>
 
 
 </head>
 <body>
-  <div class="logo">
-    Logo
-  </div>
+    <div class="mobile_app_container">
+        <div class="logo">
+            <a href="{% url 'home' %}" title="Home"><img src="{% static 'images/logo/foodie_finder.svg' %}" id="logo" alt="Foodie Finder Logo"></a>
+        </div>
 
-  <div class="search-bar-container" id="searchBar">
-    <div class="search-bar">
-      <input type="text" placeholder="Search...">
-    </div>
-  </div>
+        {% if user.is_authenticated %}
+        <div class="search-bar-container" id="searchBar">
+            <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            </div>
+        </div>
+        {% endif %}
 
-  <div class="content">
-    {% block content %}{% endblock content %}
-</div>
+        <div class="content">
+            {% block content %}{% endblock content %}
+        </div>
 
-<footer class="footer">
-  Footer Menu
-</footer>
+        {% if user.is_authenticated %}
+        <footer class="footer">
+        Footer Menu
+        </footer>
+        {% endif %}
 
 <script>
   window.onscroll = function() {
@@ -40,5 +50,6 @@
     }
   };
 </script>
+    </div>
 </body>
 </html>
