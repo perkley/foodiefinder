@@ -46,6 +46,8 @@ Resources:
             [group:guni]
             programs:gunicorn
             EOF'
+            # Now change the user to root so it has permission to run
+            sudo sed -i "s/user www-data;/user root;/g" /etc/nginx/nginx.conf
             sudo supervisorctl reread
             sudo supervisorctl update
             sudo bash -c 'cat > /etc/nginx/sites-available/django.conf << EOF
