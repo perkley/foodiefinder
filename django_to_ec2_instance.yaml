@@ -31,7 +31,7 @@ Resources:
             source /home/ubuntu/env/bin/activate
             pip3 install Django gunicorn
             git clone https://github.com/perkley/${ProjectName}.git /home/ubuntu/${ProjectName}
-            sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings.py
+            sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
             python3 /home/ubuntu/${ProjectName}/manage.py migrate
             python3 /home/ubuntu/${ProjectName}/manage.py collectstatic
             # give execution permission to our update script
