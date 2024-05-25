@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+  
+  <title>Sticky Header and Footer</title>
+
+
+</head>
+<body>
+  <div class="logo">
+    Logo
+  </div>
+
+  <div class="search-bar-container" id="searchBar">
+    <div class="search-bar">
+      <input type="text" placeholder="Search...">
+    </div>
+  </div>
+
+  <div class="content">
+    {% block content %}{% endblock content %}
+</div>
+
+<footer class="footer">
+  Footer Menu
+</footer>
+
+<script>
+  window.onscroll = function() {
+    var searchBar = document.getElementById("searchBar");
+    if (window.pageYOffset > 60) {
+      searchBar.style.top = "0";
+    } else {
+      searchBar.style.top = "60px";
+    }
+  };
+</script>
+</body>
+</html>

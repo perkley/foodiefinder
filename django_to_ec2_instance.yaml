@@ -25,6 +25,7 @@ Resources:
             #!/bin/bash
             sudo apt-get update
             sudo apt-get upgrade -y
+            # Install needed software to run django in an environment
             sudo apt-get install -y python3-venv nginx supervisor
             python3 -m venv /home/ubuntu/env
             source /home/ubuntu/env/bin/activate
@@ -33,6 +34,8 @@ Resources:
             sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings.py
             python3 /home/ubuntu/${ProjectName}/manage.py migrate
             python3 /home/ubuntu/${ProjectName}/manage.py collectstatic
+            # give execution permission to our update script
+            chmod +x /home/ubuntu/${ProjectName}/update.sh
             sudo mkdir /var/log/gunicorn
             sudo bash -c 'cat > /etc/supervisor/conf.d/gunicorn.conf << EOF
             [program:gunicorn]
@@ -42,6 +45,7 @@ Resources:
             autorestart=true
             stderr_logfile=/var/log/gunicorn/gunicorn.err.log
             stdout_logfile=/var/log/gunicorn/gunicorn.out.log
+            environment=DJANGO_ENV="production"
 
             [group:guni]
             programs:gunicorn
