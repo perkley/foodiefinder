@@ -10,8 +10,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
 
+    <link rel="stylesheet" href="{% static 'css/colors.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
-  
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400..800&display=swap');
+    </style>
+
     <title>Foodie Finder</title>
 
 
@@ -30,7 +35,7 @@
         </div>
         {% endif %}
 
-        <div class="content">
+        <div class="{% if not user.is_authenticated %}home-ad-{% else %}home-ad-{% endif %}content">
             {% block content %}{% endblock content %}
         </div>
 

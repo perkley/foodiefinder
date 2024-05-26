@@ -2,9 +2,12 @@
 {% load static %}
 
 {% block content %}
-    <h1>Welcome to Foodie Finder!</h1>
-    <p>Current Environment: {{ environment }}</p>
+    <div class="align-center">The Crossroads Edition</div>
+
+    <!-- <p>Current Environment: {{ environment }}</p> -->
     
+
+
     {% if user.is_authenticated %}
         Logged in <p>Hello, {{ user.username }}!</p>
         <form method="post" action="{% url 'logout' %}">
@@ -12,6 +15,21 @@
             <button type="submit">Logout</button>
         </form>
     {% else %}
-        <p>Please <a href="{% url 'login' %}">Log in</a> to see this content.</p>
+        <div><br><img src="{% static 'images/crossroads_logo.png' %}" alt="Crossroads Logo" class="full-width-img"></div>
+        
+        <div class="align-center font-h3">
+            <br>Welcome to Foodie Finder, the ultimate app for every food lover with specific dietary needs!
+        </div>
+        <a href="{% url 'sign_up' %}" class="action-button"><div>Get Started</div></a>
+        <div class="align-center"><a href="{% url 'login' %}" class="font-h3">Log in</a></div>
+        <div><br><img src="{% static 'images/crossroads.jpg' %}" alt="Crossroads Logo" class="full-width-img"></div>
+        <div class="text-box-background">
+            Whether you're vegan, gluten-free, keto, or just looking for something new and delicious,
+            Foodie Finder has got you covered. With a few taps, discover restaurants and dishes that 
+            perfectly match your dietary preferences, and say goodbye to endless menu scrolling and 
+            ingredient guessing. Best of all, it's completely free! Join the Foodie Finder community 
+            today and start your culinary adventure with ease and confidence. Your perfect meal is 
+            just a tap away!
+        </div>
     {% endif %}
 {% endblock %}

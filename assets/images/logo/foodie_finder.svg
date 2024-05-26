@@ -24,12 +24,12 @@
       }
 
       .cls-5, .cls-6 {
-        stroke: #e34020;
+        stroke: #c84c1f;
         stroke-miterlimit: 10;
       }
 
       .cls-5, .cls-4 {
-        fill: #e34020;
+        fill: #c84c1f;
       }
 
       .cls-6 {
