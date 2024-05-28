@@ -13,10 +13,10 @@
         {% csrf_token %}
         
         {% for field in form %}
-            <div id="floatContainer_{{field.id_for_label}}" class="float-container">
-            {% comment %} {{field.errors}}<br>{% endcomment %}
-            {{field.label_tag}} 
-            {{field}}</div>
+            <div id="floatContainer_{{field.id_for_label}}" class="float-container"><br>{% comment %} {{field.errors}}{% endcomment %}</div>
+            <div class="field-name">{{field.label_tag}}</div> 
+            <div class="field-value">{{field}}</div>
+            
         {% endfor %}
         
 

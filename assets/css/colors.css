@@ -4,3 +4,14 @@
     --tertiary-color: #3e5e6e;
     --text-box-bg-color: #cddbe0;
 }
+
+.alert {
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+.alert-danger {
+    background-color: #c84c1f;
+    color: white;
+
+}

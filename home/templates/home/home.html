@@ -10,7 +10,7 @@
 
     {% if user.is_authenticated %}
         Logged in <p>Hello, {{ user.username }}!</p>
-        <form method="post" action="{% url 'logout' %}">
+        <form method="post" action="{% url 'log_out_user' %}">
             {% csrf_token %}
             <button type="submit">Logout</button>
         </form>
@@ -21,7 +21,7 @@
             <br>Welcome to Foodie Finder, the ultimate app for every food lover with specific dietary needs!
         </div>
         <a href="{% url 'sign_up' %}" class="action-button"><div>Get Started</div></a>
-        <div class="align-center"><a href="{% url 'login' %}" class="font-h3">Log in</a></div>
+        <div class="align-center"><a href="{% url 'log_in_user' %}" class="font-h3">Log in</a></div>
         <div><br><img src="{% static 'images/crossroads.jpg' %}" alt="Crossroads Logo" class="full-width-img"></div>
         <div class="text-box-background">
             Whether you're vegan, gluten-free, keto, or just looking for something new and delicious,

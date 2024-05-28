@@ -12,7 +12,7 @@ def log_in_user(request):
     if request.method == 'GET':
         return render(request, 'registration/login.html', {'form':AuthenticationForm(), 'error':False})
     else:
-        user = authenticate(request, email=request.POST['username'], password=request.POST['password']) 
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password']) 
         if user is None:
             errorMsg = 'Email and/or password invalid.'
             form = AuthenticationForm(initial={'username': request.POST['username']})
@@ -26,9 +26,9 @@ def log_in_user(request):
             else:
                 print(user.get_all_permissions())
             
-            if user.require_change_password:
-                messages.add_message(request, messages.WARNING, 'You are required to change your password.')
-                return redirect('password_change')
+            # if user.require_change_password:
+            #     messages.add_message(request, messages.WARNING, 'You are required to change your password.')
+            #     return redirect('password_change')
 
             if next == '':
                 return redirect('home')

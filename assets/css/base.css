@@ -13,6 +13,16 @@ body {
     background-color: grey;
 }
 
+button {
+    all: unset;
+    cursor: pointer;
+}
+
+input {
+    font-size: 1.3rem;
+    width: 100%;
+}
+
 
 .font-h1, .font-h2, .font-h3 {
     font-family: "Wix Madefor Display", sans-serif;
@@ -123,7 +133,7 @@ img#logo {
     background: linear-gradient(180deg, rgba(89,132,153,1) 0%, rgba(62,94,110,1) 35%, rgba(32,59,73,1) 100%);
 }
 
-a.action-button {
+a.action-button, button {
     text-decoration: none;
     font-size: 1.5rem;
 }
@@ -133,10 +143,10 @@ a.action-button {
     border-radius: 20px;
     padding: 10px;
     color: white;
-    margin: 20px;
+    margin: 20px 0px;
     font-weight: 600;
 }
-.action-button > div:hover {
+.action-button > div:hover, button:hover {
     background-color: var(--primary-color);
 }
 
@@ -147,4 +157,8 @@ a.action-button {
     font-size: 1.2rem;
     color: var(--primary-color);
     margin: 20px 0px;
+}
+
+.field-name {
+    margin-top: 20px;
 }
