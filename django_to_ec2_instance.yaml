@@ -29,11 +29,15 @@ Resources:
             sudo apt-get install -y python3-venv nginx supervisor
             python3 -m venv /home/ubuntu/env
             source /home/ubuntu/env/bin/activate
-            pip3 install Django gunicorn
+            pip3 install pipenv gunicorn
             git clone https://github.com/perkley/${ProjectName}.git /home/ubuntu/${ProjectName}
             sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
-            python3 /home/ubuntu/${ProjectName}/manage.py migrate
-            python3 /home/ubuntu/${ProjectName}/manage.py collectstatic
+            cd /home/ubuntu/${ProjectName}
+            pipenv requirements > requirements.txt
+            pip install -r requirements.txt
+            python manage.py migrate
+            python manage.py collectstatic
+            echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('foodie', 'foodie@finder.com', 'finder')" | python manage.py shell
             # give execution permission to our update script
             chmod +x /home/ubuntu/${ProjectName}/update.sh
             sudo mkdir /var/log/gunicorn
