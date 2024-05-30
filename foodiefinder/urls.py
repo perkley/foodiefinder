@@ -17,16 +17,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from home.views import home
-from login.views import log_in_user, log_out_user, sign_up
+#from login.views import sign_up # log_in_user, log_out_user,
 from django.conf import settings
 from django.conf.urls.static import static
+from foodiefinder.settings.views import cognito_login, cognito_callback, cognito_signup, cognito_logout
 
 urlpatterns = [
     path('', home, name='home'),
-    path('login/', log_in_user, name='log_in_user'),
-    path('logout/', log_out_user, name='log_out_user'),
-    path('signup/', sign_up, name='sign_up'),
-    path('accounts/', include('django.contrib.auth.urls')),
+    # path('login/', log_in_user, name='log_in_user'),
+    # path('logout/', log_out_user, name='log_out_user'),
+    #path('signup/', sign_up, name='sign_up'),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', cognito_login, name='cognito_login'),
+    path('callback/', cognito_callback, name='cognito_callback'),
+    path('signup/', cognito_signup, name='cognito_signup'),
+    path('logout/', cognito_logout, name='cognito_logout'),
     path('account/', include('account.urls')),
 
     path('admin/', admin.site.urls),

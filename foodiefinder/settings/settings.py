@@ -56,6 +56,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# REST_FRAMEWORK = {
+#         'DEFAULT_AUTHENTICATION_CLASSES': [
+#             'django_cognito_jwt.JSONWebTokenAuthentication',
+#     ],
+# }
+
 ROOT_URLCONF = 'foodiefinder.urls'
 
 TEMPLATES = [
@@ -140,3 +146,17 @@ LOGOUT_REDIRECT_URL = 'home'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AWS Cognito
+AWS_COGNITO_USER_POOL_ID = 'us-east-1_5dDseufsr'
+AWS_COGNITO_APP_CLIENT_ID = '2mfaa2po88die806iapdpi7vfu'
+AWS_COGNITO_APP_CLIENT_SECRET = 'hav0qn61pn2c7g5unibmhie69tt2g2asv2kjbb56tpr6l01pdvk'  # if applicable
+AWS_COGNITO_REGION = 'us-east-1'
+AWS_COGNITO_URL = f'https://foodiefinder.auth.{AWS_COGNITO_REGION}.amazoncognito.com'
+if ENVIRONMENT == 'production':
+    AWS_COGNITO_LOGIN_REDIRECT_URL = 'http://localhost:8080/callback'  # Update this to your callback URL
+    AWS_COGNITO_LOGOUT_REDIRECT_URL = 'http://localhost:8080/'
+else:
+    AWS_COGNITO_LOGIN_REDIRECT_URL = 'http://localhost:8000/callback'  # Update this to your callback URL
+    AWS_COGNITO_LOGOUT_REDIRECT_URL = 'http://localhost:8000/'
+

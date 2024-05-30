@@ -10,18 +10,19 @@
 
     {% if user.is_authenticated %}
         Logged in <p>Hello, {{ user.username }}!</p>
-        <form method="post" action="{% url 'log_out_user' %}">
+        <!-- <form method="post" action="{% url 'cognito_logout' %}">
             {% csrf_token %}
             <button type="submit">Logout</button>
-        </form>
+        </form> -->
+        <a href="{% url 'cognito_logout' %}" class="action-button"><div>Log Out</div></a>
     {% else %}
         <div><br><img src="{% static 'images/crossroads_logo.png' %}" alt="Crossroads Logo" class="full-width-img"></div>
         
         <div class="align-center font-h3">
             <br>Welcome to Foodie Finder, the ultimate app for every food lover with specific dietary needs!
         </div>
-        <a href="{% url 'sign_up' %}" class="action-button"><div>Get Started</div></a>
-        <div class="align-center"><a href="{% url 'log_in_user' %}" class="font-h3">Log in</a></div>
+        <a href="{% url 'cognito_signup' %}" class="action-button"><div>Get Started</div></a>
+        <div class="align-center"><a href="{% url 'cognito_login' %}" class="font-h3">Log in</a></div>
         <div><br><img src="{% static 'images/crossroads.jpg' %}" alt="Crossroads Logo" class="full-width-img"></div>
         <div class="text-box-background">
             Whether you're vegan, gluten-free, keto, or just looking for something new and delicious,

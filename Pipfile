@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 django = "*"
 pillow = "*"
+boto3 = "*"
+django-cognito-jwt = "*"
 
 [dev-packages]
 
