@@ -37,7 +37,14 @@ Resources:
             pip install -r requirements.txt
             python manage.py migrate
             python manage.py collectstatic
+            
+            # Give user permissions to create super user
+            sudo chown -R ubuntu:ubuntu /home/ubuntu/${ProjectName}/db.sqlite3
+            sudo chmod -R 755 /home/ubuntu/${ProjectName}/db.sqlite3
+            sudo chown -R ubuntu:ubuntu /home/ubuntu/${ProjectName}
+            sudo chmod -R 755 /home/ubuntu/${ProjectName}
             echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('foodie', 'foodie@finder.com', 'finder')" | python manage.py shell
+            
             # give execution permission to our update script
             chmod +x /home/ubuntu/${ProjectName}/update.sh
             sudo mkdir /var/log/gunicorn
