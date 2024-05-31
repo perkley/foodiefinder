@@ -25,13 +25,23 @@ Resources:
             #!/bin/bash
             sudo apt-get update
             sudo apt-get upgrade -y
+            
+            # Allow https through firewall
+            sudo ufw allow https
+            sudo ufw enable
+
             # Install needed software to run django in an environment
             sudo apt-get install -y python3-venv nginx supervisor
             python3 -m venv /home/ubuntu/env
             source /home/ubuntu/env/bin/activate
             pip3 install pipenv gunicorn
             git clone https://github.com/perkley/${ProjectName}.git /home/ubuntu/${ProjectName}
+            
+            # Update the Django Settings.py file
             sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}','localhost'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
+            sudo sed -i "s/AWS_COGNITO_LOGIN_REDIRECT_URL = 'http:\/\/localhost:8000\/callback'/AWS_COGNITO_LOGIN_REDIRECT_URL = 'https:\/\/${ElasticIp}\/callback'/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
+            sudo sed -i "s/AWS_COGNITO_LOGOUT_REDIRECT_URL = 'http:\/\/localhost:8000\/'/AWS_COGNITO_LOGOUT_REDIRECT_URL = 'https:\/\/${ElasticIp}\/'/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
+
             cd /home/ubuntu/${ProjectName}
             pipenv requirements > requirements.txt
             pip install -r requirements.txt
@@ -107,10 +117,6 @@ Resources:
             EOF'
             sudo ln -s /etc/nginx/sites-available/django.conf /etc/nginx/sites-enabled
             sudo nginx -t
-            
-            # Allow https through firewall
-            sudo ufw allow https
-            sudo ufw enable
 
             sudo service nginx restart
             sudo supervisorctl reload

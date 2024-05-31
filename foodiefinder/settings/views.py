@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import login, logout
 import requests
 import urllib.parse
-import boto3
 import jwt
 
 def cognito_login(request):
