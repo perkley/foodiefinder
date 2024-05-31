@@ -1,0 +1,10 @@
+[ req ]
+distinguished_name = req_distinguished_name
+
+[ req_distinguished_name ]
+C=US  # Country
+ST=Idaho  # State
+L=Rexburg  # Locality
+O=FoodieFinder  # Organization
+OU=Development  # Organizational Unit (optional)
+CN=foodiefinder.com  # Common Name (your domain name)

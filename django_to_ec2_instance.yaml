@@ -45,6 +45,24 @@ Resources:
             sudo chmod -R 755 /home/ubuntu/${ProjectName}
             echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('foodie', 'foodie@finder.com', 'finder')" | python manage.py shell
             
+            # Setup self-signed SSL Certificate
+            sudo apt update
+            sudo apt install apache2
+            #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/${ProjectName}.key -out /etc/ssl/certs/${ProjectName}.crt
+            sudo bash -c 'cat > /etc/ssl/cert.cnf << EOF
+            [ req ]
+            distinguished_name = req_distinguished_name
+
+            [ req_distinguished_name ]
+            C=US  # Country
+            ST=Idaho  # State
+            L=Rexburg  # Locality
+            O=FoodieFinder  # Organization
+            OU=Development  # Organizational Unit (optional)
+            CN=${ElasticIp}  # Common Name (your domain name)
+            EOF'
+            sudo openssl req -x509 -nodes -days 365 -key /etc/ssl/private/${ProjectName}.key -out /etc/ssl/certs/${ProjectName}.crt -config /etc/ssl/cert.cnf
+
             # give execution permission to our update script
             chmod +x /home/ubuntu/${ProjectName}/update.sh
             sudo mkdir /var/log/gunicorn
@@ -67,8 +85,12 @@ Resources:
             sudo supervisorctl update
             sudo bash -c 'cat > /etc/nginx/sites-available/django.conf << EOF
             server {
-              listen 80;
+              listen 443 ssl;
               server_name ${ElasticIp} localhost;
+
+              ssl on;
+              ssl_certificate /etc/ssl/certs/${ProjectName}.crt;
+              ssl_certificate_key /etc/ssl/private/${ProjectName}.key;
 
               location / {
                 include proxy_params;
@@ -85,6 +107,11 @@ Resources:
             EOF'
             sudo ln -s /etc/nginx/sites-available/django.conf /etc/nginx/sites-enabled
             sudo nginx -t
+            
+            # Allow https through firewall
+            sudo ufw allow https
+            sudo ufw enable
+
             sudo service nginx restart
             sudo supervisorctl reload
 
@@ -100,6 +127,10 @@ Resources:
         - IpProtocol: tcp
           FromPort: 80
           ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
           CidrIp: 0.0.0.0/0
 
   ElasticIp:
