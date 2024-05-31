@@ -23,13 +23,23 @@ Resources:
         Fn::Base64: 
           !Sub |
             #!/bin/bash
+            
+            PROGRESS_FILE="/var/log/progress.log"
+            
+            # STEP 1
+            echo "1: Starting updates" > $PROGRESS_FILE
             sudo apt-get update
             sudo apt-get upgrade -y
-            
-            # Allow https through firewall
-            sudo ufw allow https
-            sudo ufw enable
 
+            # STEP 2
+            echo "2: Allow https and OpenSSH on Firewall (Not Used)" > $PROGRESS_FILE
+            # Allow https through firewall
+            # sudo ufw allow https
+            # sudo ufw allow OpenSSH
+            # sudo ufw enable
+
+            # STEP 3
+            echo "3: Install python3-venv nginx supervisor and clone project" > $PROGRESS_FILE
             # Install needed software to run django in an environment
             sudo apt-get install -y python3-venv nginx supervisor
             python3 -m venv /home/ubuntu/env
@@ -37,17 +47,23 @@ Resources:
             pip3 install pipenv gunicorn
             git clone https://github.com/perkley/${ProjectName}.git /home/ubuntu/${ProjectName}
             
+            # STEP 4
+            echo "4: Update Django settings.py" > $PROGRESS_FILE
             # Update the Django Settings.py file
             sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}','localhost'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
             sudo sed -i "s/AWS_COGNITO_LOGIN_REDIRECT_URL = 'http:\/\/localhost:8000\/callback'/AWS_COGNITO_LOGIN_REDIRECT_URL = 'https:\/\/${ElasticIp}\/callback'/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
             sudo sed -i "s/AWS_COGNITO_LOGOUT_REDIRECT_URL = 'http:\/\/localhost:8000\/'/AWS_COGNITO_LOGOUT_REDIRECT_URL = 'https:\/\/${ElasticIp}\/'/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
 
+            # STEP 5
+            echo "5: Install components and setup DB and static files" > $PROGRESS_FILE
             cd /home/ubuntu/${ProjectName}
             pipenv requirements > requirements.txt
             pip install -r requirements.txt
             python manage.py migrate
             python manage.py collectstatic
             
+            # STEP 6
+            echo "6: Give permissions and create super user" > $PROGRESS_FILE
             # Give user permissions to create super user
             sudo chown -R ubuntu:ubuntu /home/ubuntu/${ProjectName}/db.sqlite3
             sudo chmod -R 755 /home/ubuntu/${ProjectName}/db.sqlite3
@@ -55,24 +71,15 @@ Resources:
             sudo chmod -R 755 /home/ubuntu/${ProjectName}
             echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('foodie', 'foodie@finder.com', 'finder')" | python manage.py shell
             
-            # Setup self-signed SSL Certificate
-            sudo apt update
-            sudo apt install apache2
-            #sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/${ProjectName}.key -out /etc/ssl/certs/${ProjectName}.crt
-            sudo bash -c 'cat > /etc/ssl/cert.cnf << EOF
-            [ req ]
-            distinguished_name = req_distinguished_name
+            # STEP 7
+            echo "7: Self-signed SSL Certificate" > $PROGRESS_FILE
+            openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+            -keyout /etc/ssl/private/${ProjectName}.key \
+            -out /etc/ssl/certs/${ProjectName}.crt \
+            -subj "/C=US/ST=Idaho/L=Rexburg/O=${ProjectName}/OU=Development/CN=${ElasticIp}"
 
-            [ req_distinguished_name ]
-            C=US  # Country
-            ST=Idaho  # State
-            L=Rexburg  # Locality
-            O=FoodieFinder  # Organization
-            OU=Development  # Organizational Unit (optional)
-            CN=${ElasticIp}  # Common Name (your domain name)
-            EOF'
-            sudo openssl req -x509 -nodes -days 365 -key /etc/ssl/private/${ProjectName}.key -out /etc/ssl/certs/${ProjectName}.crt -config /etc/ssl/cert.cnf
-
+            # STEP 8
+            echo "8: Setup Gunicorn" > $PROGRESS_FILE
             # give execution permission to our update script
             chmod +x /home/ubuntu/${ProjectName}/update.sh
             sudo mkdir /var/log/gunicorn
@@ -115,16 +122,27 @@ Resources:
               }
             }
             EOF'
+
+            # STEP 9
+            echo "9: Redirect HTTP to HTTPS" > $PROGRESS_FILE
+            sudo sed -i '/listen \[::\]:80 default_server;/a \ \n \t # Redirect all HTTP traffic to HTTPS\n \t rewrite ^/(.*) https://$host/$1 permanent;' /etc/nginx/sites-available/default
+            # Redirect all HTTP traffic to HTTPS
+  rewrite ^/(.*) https://$host/$1 permanent;
+
+            # STEP 10
+            echo "10: Finish setup and restart" > $PROGRESS_FILE
             sudo ln -s /etc/nginx/sites-available/django.conf /etc/nginx/sites-enabled
             sudo nginx -t
 
             sudo service nginx restart
             sudo supervisorctl reload
 
+            echo "Finished successfully" > $PROGRESS_FILE
+
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties: 
-      GroupDescription: Enable HTTP access
+      GroupDescription: Enable HTTP, SSH, and HTTPS access
       SecurityGroupIngress: 
         - IpProtocol: tcp
           FromPort: 22
