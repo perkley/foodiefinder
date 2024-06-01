@@ -31,6 +31,9 @@ def get_secret(secret_name):
 # Fetch your secret values
 secrets = get_secret('foodiefinderSevenAppSecrets')
 
+allowed_hosts_str = secrets['AllowedHosts']
+ALLOWED_HOSTS = allowed_hosts_str.split(',')
+
 AWS_COGNITO_USER_POOL_ID = secrets['UserPoolId']
 AWS_COGNITO_APP_CLIENT_ID = secrets['ClientId']
 AWS_COGNITO_APP_CLIENT_SECRET = secrets['ClientSecret']

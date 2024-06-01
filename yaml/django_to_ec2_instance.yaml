@@ -7,12 +7,14 @@ Parameters:
     Type: String
     Default: foodiefinder
 
+Resources:
   FoodieFinderInstance:
     Type: AWS::EC2::Instance
     Properties: 
       InstanceType: t2.micro
       ImageId: ami-04b70fa74e45c3917 # Ubuntu Server 24.04
       KeyName: vockey
+      IamInstanceProfile: !Ref MyInstanceProfile # Assign the Lab Role
       SecurityGroups: 
         - !Ref InstanceSecurityGroup
       Tags:
@@ -48,10 +50,10 @@ Parameters:
             
             # STEP 4
             echo "4: Update Django settings.py" > $PROGRESS_FILE
-            # Update the Django Settings.py file
-            sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}','localhost'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
-            sudo sed -i "s/AWS_COGNITO_LOGIN_REDIRECT_URL = 'http:\/\/localhost:8000\/callback'/AWS_COGNITO_LOGIN_REDIRECT_URL = 'https:\/\/${ElasticIp}\/callback'/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
-            sudo sed -i "s/AWS_COGNITO_LOGOUT_REDIRECT_URL = 'http:\/\/localhost:8000\/'/AWS_COGNITO_LOGOUT_REDIRECT_URL = 'https:\/\/${ElasticIp}\/'/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
+            # Update the Django Settings.py file (I decided not to update, using secrets manager, and then we can update without stashing)
+            #sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}','localhost'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
+            #sudo sed -i "s/AWS_COGNITO_LOGIN_REDIRECT_URL = 'http:\/\/localhost:8000\/callback'/AWS_COGNITO_LOGIN_REDIRECT_URL = 'https:\/\/${ElasticIp}\/callback'/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
+            #sudo sed -i "s/AWS_COGNITO_LOGOUT_REDIRECT_URL = 'http:\/\/localhost:8000\/'/AWS_COGNITO_LOGOUT_REDIRECT_URL = 'https:\/\/${ElasticIp}\/'/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
 
             # STEP 5
             echo "5: Install components and setup DB and static files" > $PROGRESS_FILE
@@ -164,6 +166,12 @@ Parameters:
     Properties: 
       InstanceId: !Ref FoodieFinderInstance
       EIP: !Ref ElasticIp
+
+  MyInstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Roles:
+        - LabRole  # AWS Lab Role
 
 Outputs:
   InstanceId:
