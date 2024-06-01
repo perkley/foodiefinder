@@ -148,11 +148,11 @@ LOGOUT_REDIRECT_URL = 'home'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AWS Cognito
-AWS_COGNITO_USER_POOL_ID = 'us-east-1_5dDseufsr'
-AWS_COGNITO_APP_CLIENT_ID = '2mfaa2po88die806iapdpi7vfu'
-AWS_COGNITO_APP_CLIENT_SECRET = 'hav0qn61pn2c7g5unibmhie69tt2g2asv2kjbb56tpr6l01pdvk'  # if applicable
+AWS_COGNITO_USER_POOL_ID = 'us-east-1_gHRLAppey'
+AWS_COGNITO_APP_CLIENT_ID = '5562uvg7ub5fab4su8rn3v7mgj'
+AWS_COGNITO_APP_CLIENT_SECRET = '1oekp7ibbg85kj3648unih4blstahl3dvatmc7narmvkhdluvv88'  # if applicable
 AWS_COGNITO_REGION = 'us-east-1'
-AWS_COGNITO_URL = f'https://foodiefinder.auth.{AWS_COGNITO_REGION}.amazoncognito.com'
+AWS_COGNITO_URL = f'https://foodiefinder7.auth.us-east-1.amazoncognito.com'
 AWS_COGNITO_LOGIN_REDIRECT_URL = 'http://localhost:8000/callback'  # Update this to your callback URL
-AWS_COGNITO_LOGOUT_REDIRECT_URL = 'http://localhost:8000/'
+AWS_COGNITO_LOGOUT_REDIRECT_URL = 'http://localhost:8000'
 

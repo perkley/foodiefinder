@@ -29,7 +29,7 @@ def get_secret(secret_name):
     return json.loads(secret)
 
 # Fetch your secret values
-secrets = get_secret('foodiefinderSixAppSecrets')
+secrets = get_secret('foodiefinderSevenAppSecrets')
 
 AWS_COGNITO_USER_POOL_ID = secrets['UserPoolId']
 AWS_COGNITO_APP_CLIENT_ID = secrets['ClientId']
