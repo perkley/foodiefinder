@@ -12,6 +12,9 @@ Push Code
 
 3. Create the Django Instance and Elastic IP:
     - Run django_to_ec2_instance.yaml and choose Lab Role
-    - Get the Elastic IP and update the allowed_hosts variable in the Secrets Manager, then restart gunicorn
+    - Get the Elastic IP and update the allowed_hosts variable in the Secrets Manager, then restart gunicorn (unless you do it before it starts up)
         sudo supervisorctl reload
 
+4. Update Cognito App Client Allowed Callback and sign-out URLs
+    - https://100.28.180.50/callback
+    - https://100.28.180.50

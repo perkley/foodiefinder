@@ -58,7 +58,7 @@ def cognito_callback(request):
     lName = claims['family_name']
 
     #print(User.objects.filter(email=claims['email']).query)
-    user, created = User.objects.get_or_create(defaults={'first_name': fName, 'last_name': lName}, email=email)
+    user, created = User.objects.get_or_create(defaults={'username': username, 'first_name': fName, 'last_name': lName}, email=email)
     if not created:
         user.username = username
         user.email = email
