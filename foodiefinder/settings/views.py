@@ -54,7 +54,8 @@ def cognito_callback(request):
     # cognito_sub = user_info['sub']
     username = claims['cognito:username']
 
-    user, created = User.objects.get_or_create(defaults={'username': username, 'email': claims['email']})
+    #print(User.objects.filter(email=claims['email']).query)
+    user, created = User.objects.get_or_create(defaults={'email': claims['email']}, username=username)
     if not created:
          user.username = username
          user.email = claims['email']

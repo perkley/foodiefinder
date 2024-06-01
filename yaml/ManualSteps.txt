@@ -1,0 +1,15 @@
+Open CloudFormation
+
+1. Create the Secrets Manager and Cognito:
+    - Run cognito_secrets_manager.yaml and choose Lab Role
+
+2. Find out what the Secret Name is (IE: FoodieFinderAppSecrets)
+Update the Django project: production.py to reference this name:
+    secrets = get_secret('FoodieFinderAppSecrets')
+Update the Django project: settings.py to have these values without reading from the secrets manager for testing.
+Push Code
+
+3. Create the Django Instance and Elastic IP:
+    - Run django_to_ec2_instance.yaml and choose Lab Role
+
+

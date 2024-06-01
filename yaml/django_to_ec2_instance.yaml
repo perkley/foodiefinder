@@ -7,7 +7,6 @@ Parameters:
     Type: String
     Default: foodiefinder
 
-Resources:
   FoodieFinderInstance:
     Type: AWS::EC2::Instance
     Properties: 
@@ -69,7 +68,7 @@ Resources:
             sudo chmod -R 755 /home/ubuntu/${ProjectName}/db.sqlite3
             sudo chown -R ubuntu:ubuntu /home/ubuntu/${ProjectName}
             sudo chmod -R 755 /home/ubuntu/${ProjectName}
-            echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('foodie', 'foodie@finder.com', 'finder')" | python manage.py shell
+            echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('foodie', 'foodie@finder.com', 'finder')" | python /home/ubuntu/foodiefinder/manage.py shell
             
             # STEP 7
             echo "7: Self-signed SSL Certificate" > $PROGRESS_FILE
@@ -126,8 +125,6 @@ Resources:
             # STEP 9
             echo "9: Redirect HTTP to HTTPS" > $PROGRESS_FILE
             sudo sed -i '/listen \[::\]:80 default_server;/a \ \n \t # Redirect all HTTP traffic to HTTPS\n \t rewrite ^/(.*) https://$host/$1 permanent;' /etc/nginx/sites-available/default
-            # Redirect all HTTP traffic to HTTPS
-  rewrite ^/(.*) https://$host/$1 permanent;
 
             # STEP 10
             echo "10: Finish setup and restart" > $PROGRESS_FILE
