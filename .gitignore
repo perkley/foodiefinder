@@ -8,7 +8,6 @@ local_settings.py
 generate/settings/__init__.py
 static/*
 /secrets.json
-/requirements.txt
 files/*
 scripts/test.ps1
 media/*

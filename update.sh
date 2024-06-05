@@ -4,6 +4,9 @@
 # Navigate to your project directory
 cd /home/ubuntu/foodiefinder
 
+# Stash what was changed
+sudo git stash
+
 # Pull the latest code from Git
 echo "Pulling latest code from Git..."
 git config --global --add safe.directory /home/ubuntu/foodiefinder
