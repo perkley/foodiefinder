@@ -32,7 +32,7 @@ def get_aws_secret(secret_name):
 aws_secrets_manager_name = get_local_secret('AWS_SECRETS_MANAGER_NAME')
 secrets = get_aws_secret(aws_secrets_manager_name)
 
-DEBUG = secrets('Debug').lower() == 'true'
+DEBUG = secrets['Debug'].lower() == 'true'
 
 allowed_hosts_str = secrets['AllowedHosts']
 ALLOWED_HOSTS = allowed_hosts_str.split(',')

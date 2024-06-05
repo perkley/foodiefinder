@@ -45,7 +45,12 @@ Resources:
             sudo apt-get install -y python3-venv nginx supervisor
             python3 -m venv /home/ubuntu/env
             source /home/ubuntu/env/bin/activate
-            environment=DJANGO_ENV="production"
+            
+            # Setup the production environment variable
+            sudo sh -c 'echo "DJANGO_ENV=production" >> /etc/environment'
+            source /etc/environment
+
+            # environment=DJANGO_ENV="production"
             pip3 install pipenv gunicorn
             git clone https://github.com/perkley/${ProjectName}.git /home/ubuntu/${ProjectName}
             
