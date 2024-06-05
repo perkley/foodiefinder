@@ -2,19 +2,25 @@ Open CloudFormation
 
 1. Create the Secrets Manager and Cognito:
     - Run cognito_secrets_manager.yaml and choose Lab Role
-    - Visit Cognito and in the App Client, upload the logo: foodiefinder_cognito_logo.png
+    - In 'AWS Cognito', select your 'User Pool' > 'App integration' > click on your 'App Client name' and under 'Hosted UI customization' you can upload the logo: 'foodiefinder_cognito_logo.png' and 'Cognito_UI.css'
 
-2. Find out what the Secret Name is (IE: FoodieFinderAppSecrets)
-Update the Django project locally: production.py to reference this name:
-    secrets = get_secret('FoodieFinderAppSecrets')
-Update the Django project: settings.py  - AWS_COGNITO vars to have these values without reading from the secrets manager for testing.
-Push Code
-
-3. Create the Django Instance and Elastic IP:
+2. Create the Django Instance and Elastic IP:
     - Run django_to_ec2_instance.yaml and choose Lab Role
-    - Get the Elastic IP and update the allowed_hosts variable in the Secrets Manager, then restart gunicorn (unless you do it before it starts up)
-        sudo supervisorctl reload
+    - Accept the 'I acknowledge that AWS CloudFormation might create IAM resources.' and submit
 
-4. Update Cognito App Client Allowed Callback and sign-out URLs
+3. Find out what the Secret Name is (IE: FoodieFinderAppSecrets)
+    - Get the Elastic IP and update the 'allowed_hosts' variable and the 'CognitoLoginRedirectUrl' and 'CognitoLogoutRedirectUrl' in the Secrets Manager (Remember, it needs to be https for the redirect urls)
+
+4. EC2 Connect
+    - Get into the server and make sure it has finished successfully!
+        - cat /var/log/progress.log
+    - We need to update the secrets.json to know where to find the secrets manager.
+        - sudo vim /home/ubuntu/foodiefinder/secrets.json
+    - Then restart gunicorn
+        sudo supervisorctl reload
+    - If errors try:
+        tail -f /var/log/gunicorn/gunicorn.err.log
+
+5. Update Cognito App Client Allowed Callback and sign-out URLs (These must match the exact same as you have written in the Secrets Manager)
     - https://100.28.180.50/callback
     - https://100.28.180.50

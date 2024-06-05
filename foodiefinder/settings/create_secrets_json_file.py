@@ -19,7 +19,7 @@ def create_initial_secrets_json_file(filename, environment):
             "AWS_COGNITO_LOGIN_REDIRECT_URL": "",
             "AWS_COGNITO_LOGOUT_REDIRECT_URL": ""
         }
-    else:
+    else: # production
         secrets = {
             "SECRET_KEY": secret_key,
             "AWS_SECRETS_MANAGER_NAME": ""

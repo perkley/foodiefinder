@@ -45,8 +45,7 @@ def get_local_secret(setting, secrets=secrets):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_local_secret('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_local_secret('DEBUG').lower() == 'true'
+
 
 ALLOWED_HOSTS = ['localhost']
 

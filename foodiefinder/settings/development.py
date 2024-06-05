@@ -2,6 +2,9 @@ from .settings import *
 
 print("Development Settings Applied")
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = get_local_secret('DEBUG').lower() == 'true'
+
 #allowed_hosts_str = get_local_secret('ALLOWED_HOSTS')
 ALLOWED_HOSTS = get_local_secret('ALLOWED_HOSTS')
 
