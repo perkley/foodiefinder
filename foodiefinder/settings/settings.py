@@ -11,20 +11,31 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import os
+from django.core.exceptions import ImproperlyConfigured
+import os, json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+# Open the file that has the login information
+with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:
+    secrets = json.load(secrets_file)
 
+def get_local_secret(setting, secrets=secrets):
+    """Get secret setting or fail with ImproperlyConfigured"""
+    try:
+        return secrets[setting]
+    except KeyError:
+        raise ImproperlyConfigured("Set the {} setting".format(setting))
+    
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dy966h_k$)(6^8iwu-66ul)e--g80wpk*7s5u1u35b!@!%ixra'
+SECRET_KEY = get_local_secret('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = get_local_secret('DEBUG').lower() == 'true'
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -146,13 +157,4 @@ LOGOUT_REDIRECT_URL = 'home'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# AWS Cognito
-AWS_COGNITO_USER_POOL_ID = 'us-east-1_gHRLAppey'
-AWS_COGNITO_APP_CLIENT_ID = '5562uvg7ub5fab4su8rn3v7mgj'
-AWS_COGNITO_APP_CLIENT_SECRET = '1oekp7ibbg85kj3648unih4blstahl3dvatmc7narmvkhdluvv88'  # if applicable
-AWS_COGNITO_REGION = 'us-east-1'
-AWS_COGNITO_URL = f'https://foodiefinder7.auth.us-east-1.amazoncognito.com'
-AWS_COGNITO_LOGIN_REDIRECT_URL = 'http://localhost:8000/callback'  # Update this to your callback URL
-AWS_COGNITO_LOGOUT_REDIRECT_URL = 'http://localhost:8000'
 

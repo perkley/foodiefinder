@@ -10,6 +10,7 @@
 
     {% if user.is_authenticated %}
         Logged in <p>Hello {{ user.first_name }}!</p>
+        <!-- -{{is_new_user}}-{{t_date_joined}}-{{t_now}} -->
         <!-- <form method="post" action="{% url 'cognito_logout' %}">
             {% csrf_token %}
             <button type="submit">Logout</button>

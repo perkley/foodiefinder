@@ -33,11 +33,17 @@ Resources:
             sudo apt-get upgrade -y
 
             # STEP 2
-            echo "2: Allow https and OpenSSH on Firewall (Not Used)" > $PROGRESS_FILE
+            echo "2: Create Local Secrets.json File" > $PROGRESS_FILE
             # Allow https through firewall
             # sudo ufw allow https
             # sudo ufw allow OpenSSH
             # sudo ufw enable
+            sudo bash -c 'cat > /home/ubuntu/${ProjectName}/secrets.json << EOF
+            {
+              "SECRET_KEY": "$(python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())")",
+              "AWS_SECRETS_MANAGER_NAME": "update-to-your-secrets-manager-name",
+            }
+            EOF'
 
             # STEP 3
             echo "3: Install python3-venv nginx supervisor and clone project" > $PROGRESS_FILE

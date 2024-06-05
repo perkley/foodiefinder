@@ -11,7 +11,7 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-def get_secret(secret_name):
+def get_aws_secret(secret_name):
     # Create a Secrets Manager client
     session = boto3.session.Session()
     client = boto3.client('secretsmanager', region_name='us-east-1')
@@ -29,7 +29,10 @@ def get_secret(secret_name):
     return json.loads(secret)
 
 # Fetch your secret values
-secrets = get_secret('foodiefinderSevenAppSecrets')
+aws_secrets_manager_name = get_local_secret('AWS_SECRETS_MANAGER_NAME')
+secrets = get_aws_secret(aws_secrets_manager_name)
+
+DEBUG = secrets('Debug').lower() == 'true'
 
 allowed_hosts_str = secrets['AllowedHosts']
 ALLOWED_HOSTS = allowed_hosts_str.split(',')
