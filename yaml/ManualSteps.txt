@@ -24,3 +24,6 @@ Open CloudFormation
 5. Update Cognito App Client Allowed Callback and sign-out URLs (These must match the exact same as you have written in the Secrets Manager)
     - https://100.28.180.50/callback
     - https://100.28.180.50
+
+6. Any updates, run this in /var/ubuntu/foodiefinder/ folder:
+    - sudo bash ./update.sh

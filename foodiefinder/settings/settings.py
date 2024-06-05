@@ -24,6 +24,8 @@ secrets_json_file_path = os.path.join(BASE_DIR, 'secrets.json')
 # Default to development
 ENVIRONMENT = os.getenv('DJANGO_ENV', 'development')
 
+DEBUG = True
+
 # Create the secrets json file if it does not exist
 if not os.path.exists(secrets_json_file_path):
     create_initial_secrets_json_file(secrets_json_file_path, ENVIRONMENT)
@@ -31,6 +33,7 @@ if not os.path.exists(secrets_json_file_path):
 # Open the file that has the login information
 with open(secrets_json_file_path) as secrets_file:
     secrets = json.load(secrets_file)
+
 
 def get_local_secret(setting, secrets=secrets):
     """Get secret setting or fail with ImproperlyConfigured"""
