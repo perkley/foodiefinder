@@ -179,6 +179,83 @@ Resources:
       Roles:
         - LabRole  # AWS Lab Role
 
+
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyDBInstance:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBInstanceIdentifier: 'foodieFinder'
+      AllocatedStorage: '20'
+      DBInstanceClass: 'db.t3.micro'
+      Engine: 'postgres'
+      EngineVersion: '16.2-R2'
+      MasterUsername: 'postgres'
+      MasterUserPassword: !Sub '${DBPassword}'
+      DBName: 'mydatabase'
+      VPCSecurityGroups:
+        - !Ref FoodieFinderRDSSG
+      PubliclyAccessible: false
+      DBSubnetGroupName: !Ref MyDBSubnetGroup
+
+  FoodieFinderRDSSG:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security group for foodieFinder RDS instance'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '5432'
+          ToPort: '5432'
+          SourceSecurityGroupId: !Ref MyEC2SecurityGroup
+
+  MyDBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: 'Subnet group for foodieFinder RDS instance'
+      SubnetIds:
+        - subnet-xxxxxxxx
+        - subnet-yyyyyyyy
+
+  MyEC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: 't3.micro'
+      SecurityGroups:
+        - !Ref MyEC2SecurityGroup
+      ImageId: ami-xxxxxxxx
+
+  MyEC2SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Security group for EC2 instance'
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: '0.0.0.0/0'
+        - IpProtocol: tcp
+          FromPort: '5432'
+          ToPort: '5432'
+          SourceSecurityGroupId: !Ref FoodieFinderRDSSG
+
+Parameters:
+  DBPassword:
+    Type: String
+    NoEcho: true
+    Description: 'The database master password'
+
+Outputs:
+  DBConnectionInfo:
+    Description: 'Connection info for the RDS instance'
+    Value: !Sub 'jdbc:postgresql://${MyDBInstance.Endpoint.Address}:${MyDBInstance.Endpoint.Port}/mydatabase'
+
+
+
+
+
+
+
+
 Outputs:
   InstanceId:
     Description: The instance ID
