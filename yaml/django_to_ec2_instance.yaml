@@ -38,12 +38,6 @@ Resources:
             # sudo ufw allow https
             # sudo ufw allow OpenSSH
             # sudo ufw enable
-            sudo bash -c 'cat > /home/ubuntu/${ProjectName}/secrets.json << EOF
-            {
-              "SECRET_KEY": "$(python3 -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())")",
-              "AWS_SECRETS_MANAGER_NAME": "update-to-your-secrets-manager-name",
-            }
-            EOF'
 
             # STEP 3
             echo "3: Install python3-venv nginx supervisor and clone project" > $PROGRESS_FILE
@@ -55,7 +49,7 @@ Resources:
             git clone https://github.com/perkley/${ProjectName}.git /home/ubuntu/${ProjectName}
             
             # STEP 4
-            echo "4: Update Django settings.py" > $PROGRESS_FILE
+            echo "4: Update Django settings.py (Not Used)" > $PROGRESS_FILE
             # Update the Django Settings.py file (I decided not to update, using secrets manager, and then we can update without stashing)
             #sudo sed -i "s/ALLOWED_HOSTS = \[\]/ALLOWED_HOSTS = \['${ElasticIp}','localhost'\]/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py
             #sudo sed -i "s/AWS_COGNITO_LOGIN_REDIRECT_URL = 'http:\/\/localhost:8000\/callback'/AWS_COGNITO_LOGIN_REDIRECT_URL = 'https:\/\/${ElasticIp}\/callback'/g" /home/ubuntu/${ProjectName}/${ProjectName}/settings/settings.py

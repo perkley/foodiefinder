@@ -2,8 +2,8 @@ from .settings import *
 
 print("Development Settings Applied")
 
-allowed_hosts_str = get_local_secret('ALLOWED_HOSTS')
-ALLOWED_HOSTS = allowed_hosts_str.split(',')
+#allowed_hosts_str = get_local_secret('ALLOWED_HOSTS')
+ALLOWED_HOSTS = get_local_secret('ALLOWED_HOSTS')
 
 AWS_COGNITO_USER_POOL_ID = get_local_secret('AWS_COGNITO_USER_POOL_ID')
 AWS_COGNITO_APP_CLIENT_ID = get_local_secret('AWS_COGNITO_APP_CLIENT_ID')

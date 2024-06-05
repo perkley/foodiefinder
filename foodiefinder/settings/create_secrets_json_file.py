@@ -25,6 +25,6 @@ def create_initial_secrets_json_file(filename, environment):
             "AWS_SECRETS_MANAGER_NAME": ""
         }
     with open(filename, 'w') as secrets_file:
-        json.dump(secrets, secrets_file)
+        json.dump(secrets, secrets_file, indent=2)
 
     print("Secret key has been written to secrets.json")
