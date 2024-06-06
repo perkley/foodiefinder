@@ -1,0 +1,14 @@
+{% if restriction.is_selected %}
+<div class="pos-relative-allergy">
+    <div class="pos-absolute-allergy"><svg class="icon-allergy"><use xlink:href="#icon-no"></use></svg></div>
+</div>
+{% endif %}
+<div class="card-allergy{% if restriction.is_selected %}-selected{% endif %}">
+    
+    <img src="{{restriction.image_url}}" alt="{{restriction.title}}" class="card-image-allergy">
+        
+    <div class="card-content-allergy">
+        <h2 class="card-title-allergy">{{restriction.title}}</h2>
+    </div>
+    
+</div>

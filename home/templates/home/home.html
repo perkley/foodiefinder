@@ -2,20 +2,31 @@
 {% load static %}
 
 {% block content %}
-    <div class="align-center">The Crossroads Edition</div>
+    <div class="align-center">The Crossroads Edition</div><br>
 
     <!-- <p>Current Environment: {{ environment }}</p> -->
     
 
 
     {% if user.is_authenticated %}
-        Logged in <p>Hello {{ user.first_name }}!</p>
+        
         <!-- -{{is_new_user}}-{{t_date_joined}}-{{t_now}} -->
         <!-- <form method="post" action="{% url 'cognito_logout' %}">
             {% csrf_token %}
             <button type="submit">Logout</button>
         </form> -->
-        <a href="{% url 'cognito_logout' %}" class="action-button"><div>Log Out</div></a>
+        {% for listing in food_items %}
+            {% include 'home/search_item.html' %}
+        {% empty %}
+            Nothing found.
+        {% endfor %}
+        <br><br><br><br>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const svgElement = document.querySelector(".svg-search-icon");
+                svgElement.classList.add("selected");
+            });
+        </script>
     {% else %}
         <div><br><img src="{% static 'images/crossroads_logo.png' %}" alt="Crossroads Logo" class="full-width-img"></div>
         

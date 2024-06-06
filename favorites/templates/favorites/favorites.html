@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="align-center">Favorites</h1>
+
+{% for listing in food_items %}
+    {% include 'home/search_item.html' %}
+{% empty %}
+    Nothing found.
+{% endfor %}
+<br><br><br><br>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const svgElement = document.querySelector(".svg-favorites-icon");
+        svgElement.classList.add("selected");
+    });
+</script>
+{% endblock content %}

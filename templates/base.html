@@ -41,7 +41,72 @@
 
         {% if user.is_authenticated %}
         <footer class="footer">
-        Footer Menu
+          <!-- <div class="svg-container"><img src="{% static 'images/menu/heart.svg' %}" alt="Favorites" class="svg-icon"></div> -->
+          
+          <div class="grid-container-footer-menu">
+            
+            
+            <div class="grid-footer-menu-item"><a href="{% url 'home' %}" title="Home">
+              <svg class="svg-search-icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+                <defs>
+                  <style>
+                    .svg-fill {
+                      fill: #000;
+                      stroke-width: 0px;
+                    }
+                  </style>
+                </defs>
+                <g id="Layer_1-2" data-name="Layer 1">
+                  <path class="svg-fill" d="M145.08,121.31l-37.48-37.47c11.7-22.07,7.73-49.31-10.06-67.1C86.75,5.94,72.41,0,57.14,0S27.53,5.94,16.74,16.74C5.94,27.52,0,41.87,0,57.14s5.94,29.61,16.74,40.4c10.77,10.77,25.08,16.7,40.32,16.7,9.36,0,18.56-2.29,26.78-6.64l37.48,37.47c3.17,3.17,7.39,4.92,11.89,4.92s8.71-1.75,11.88-4.92c6.55-6.55,6.55-17.21,0-23.77h0ZM94.12,57.14c0,9.88-3.85,19.16-10.83,26.14-6.98,6.98-16.27,10.83-26.14,10.83s-19.16-3.85-26.14-10.83c-14.42-14.42-14.42-37.87,0-52.29,6.98-6.98,16.27-10.83,26.14-10.83s19.16,3.85,26.14,10.83c6.98,6.98,10.83,16.27,10.83,26.15Z"/>
+                </g>
+              </svg>
+            </a>
+            </div>
+            
+
+            <div class="grid-footer-menu-item"><a href="{% url 'account:account' %}" title="Profile">
+              <svg class="svg-profile-icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+                <defs>
+                  <style>
+                    .svg-fill {
+                      fill: #000;
+                      stroke-width: 0px;
+                    }
+                  </style>
+                </defs>
+                <g id="Layer_1-2" data-name="Layer 1">
+                  <path class="svg-fill" d="M95.54,73.52c11.44-6.98,19.16-19.46,19.16-33.81C114.71,17.81,96.89,0,75,0s-39.71,17.81-39.71,39.71c0,14.36,7.73,26.83,19.16,33.81C23.07,82.48,0,111.36,0,145.59v4.41h150v-4.41c0-34.23-23.07-63.11-54.46-72.07Z"/>
+                </g>
+              </svg>
+              
+              </a>
+              
+            </div>
+
+            <div class="grid-footer-menu-item"><a href="{% url 'favorites:favorites' %}" title="Favorites">
+              <!-- Favorites -->
+              <svg class="svg-favorites-icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170.99 150">
+                <defs>
+                  <style>
+                    .svg-fill {
+                      fill: #000;
+                      fill-rule: evenodd;
+                      stroke-width: 0px;
+                    }
+                  </style>
+                </defs>
+                <g id="Layer_1-2" data-name="Layer 1">
+                  <path class="svg-fill" d="M44.7,0C16.38-.09-8.68,28.69,2.89,62.86c13.31,33.79,50.2,63.19,82.61,87.14,32.41-23.96,69.3-53.36,82.61-87.14C179.67,28.69,154.61-.09,126.29,0c-14.33.05-29.12,7.76-40.79,25.62C73.82,7.76,59.03.05,44.7,0h0Z"/>
+                </g>
+              </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="pos-relative align-center"><div class="pos-absolute user-display align-center">{{ user.first_name }}</div></div>
+
+          
+
         </footer>
         {% endif %}
 
@@ -54,6 +119,7 @@
       searchBar.style.top = "60px";
     }
   };
+
 </script>
     </div>
 </body>

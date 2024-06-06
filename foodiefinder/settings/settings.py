@@ -64,7 +64,8 @@ INSTALLED_APPS = [
     'home',
     'login',
     'account',
-    'food'
+    'food',
+    'favorites'
 ]
 
 MIDDLEWARE = [

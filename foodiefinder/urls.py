@@ -33,6 +33,7 @@ urlpatterns = [
     path('signup/', cognito_signup, name='cognito_signup'),
     path('logout/', cognito_logout, name='cognito_logout'),
     path('account/', include('account.urls')),
+    path('favorites/', include('favorites.urls')),
 
     path('admin/', admin.site.urls),
 ]

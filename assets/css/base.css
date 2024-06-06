@@ -24,17 +24,19 @@ input {
 }
 
 
-.font-h1, .font-h2, .font-h3 {
+h1, h2, h3 {
     font-family: "Wix Madefor Display", sans-serif;
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
     font-size: 2rem;
+    margin: 0;
+    margin-bottom: 20px;
   }
-  .font-h2 {
+  h2 {
       font-size: 1.5rem;
   }
-  .font-h3 {
+  h3 {
       font-size: 1.2rem;
   }
 
@@ -100,10 +102,10 @@ img#logo {
     bottom: 0;
     max-width: 500px;
     width: 100%;
-    background: #333;
+    background: var(--footer-color);
     color: #fff;
     text-align: center;
-    padding: 10px 0;
+    /* padding: 0 0; */
     z-index: 1000;
 }
 
@@ -161,4 +163,141 @@ a.action-button, button {
 
 .field-name {
     margin-top: 20px;
+}
+
+/* ===================================== */
+/* =========== SVG STYLES ============== */
+/* ===================================== */
+
+.svg-search-icon, .svg-profile-icon, .svg-favorites-icon {
+    width: 50px;
+    height: 50px;
+    transition: fill 0.3s ease;
+}
+
+.svg-search-icon:hover .svg-fill, .svg-profile-icon:hover .svg-fill, .svg-favorites-icon:hover .svg-fill {
+    fill: var(--tertiary-color);
+}
+
+.svg-search-icon.selected .svg-fill, .svg-profile-icon.selected .svg-fill, .svg-favorites-icon.selected .svg-fill {
+    fill: var(--secondary-color);
+}
+
+.grid-container-footer-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 100px;
+}
+
+.grid-footer-menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid #ccc; */
+}
+
+
+.card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 10px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    /* border: 1px solid green; */
+}
+
+.card-title {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.card-description {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    margin: 0;
+    color: #555;
+}
+
+.card-image {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+}
+
+
+.pos-relative {
+    position: relative;
+    width: 100%;
+}
+.pos-absolute {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.user-display {
+    top: -30px;
+    z-index: 5000;
+    color: var(--secondary-color)
+}
+
+
+
+.card-allergy, .card-allergy-selected {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr; /* Single row */
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
+    /* border: 1px solid green; */
+}
+
+.card-allergy-selected {
+    background-color: var(--footer-color);
+    
+}
+.card-allergy-selected .card-title-allergy {
+    color: var(--secondary-color);
+}
+
+.card-title-allergy {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--primary-color); 
+}
+
+
+.card-image-allergy {
+    width: 50px;
+    height: auto;
+    border-radius: 8px;
+}
+
+
+.icon-allergy {
+    width: 50px;
+}
+
+.pos-relative-allergy {
+    position: relative;
+}
+.pos-absolute-allergy {
+    position: absolute;
+    top: -30px;
+    left: 20px;
 }
