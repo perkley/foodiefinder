@@ -49,10 +49,10 @@ AWS_COGNITO_LOGOUT_REDIRECT_URL = secrets['CognitoLogoutRedirectUrl']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'foodiefinder', # Fill in with the database name you chose in the RDS creation form
-        'USER': 'postgres', # Fill in with the user name you chose in the RDS creation form
-        'PASSWORD': 'password', # Fill in with the database password you chose in the RDS creation form
-        'HOST': 'dbfoodiefinder.ctcccsi0cndb.us-east-1.rds.amazonaws.com', # Fill in with the endpoint found in RDS
-        'PORT': '5432', 
+        'NAME': secrets['RdsDatabaseName'],
+        'USER': secrets['RdsUser'],
+        'PASSWORD': secrets['RdsPassword'],
+        'HOST': secrets['RdsHost'],
+        'PORT': secrets['RdsPort'], 
     }
 }
