@@ -62,7 +62,7 @@ DATABASES = {
 
 # S3 Bucket Configuration
 AWS_STORAGE_BUCKET_NAME = secrets['S3BucketName']
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}  # Optional: Cache static files for a day
 
 # # STORAGES Dictionary
@@ -120,8 +120,8 @@ STORAGES = {
 
 # Static Files (using 'staticfiles' storage from STORAGES)
 STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Media Files (using 'mediafiles' storage from STORAGES)
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
