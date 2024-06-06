@@ -27,3 +27,14 @@ Open CloudFormation
 
 6. Any updates, run this in /var/ubuntu/foodiefinder/ folder:
     - sudo bash ./update.sh
+
+
+PostgreSQL from EC2
+1. Make sure the postgresql-client is installed
+    apt install postgresql-client -y
+2. Connect to PostgreSQL - example line: 
+    psql -h dbfoodiefinder.ctcccsi0cndb.us-east-1.rds.amazonaws.com -p 5432 -U postgres -W
+3. psql commands
+    \d = Lists out all the databases
+    \c foodiefinder = Use the foodiefinder table
+    select * from auth_user; = Show all the records in the table auth_user

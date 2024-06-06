@@ -56,3 +56,35 @@ DATABASES = {
         'PORT': secrets['RdsPort'], 
     }
 }
+
+
+# File Storage on S3 Bucket
+
+# S3 Bucket Configuration
+AWS_STORAGE_BUCKET_NAME = secrets['S3BucketName']
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}  # Optional: Cache static files for a day
+
+# STORAGES Dictionary
+STORAGES = {
+    'default': {
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+        'OPTIONS': {
+            'AWS_STORAGE_BUCKET_NAME': AWS_STORAGE_BUCKET_NAME,
+            'AWS_S3_CUSTOM_DOMAIN': AWS_S3_CUSTOM_DOMAIN,
+            'AWS_S3_OBJECT_PARAMETERS': AWS_S3_OBJECT_PARAMETERS,
+        }
+    },
+    'staticfiles': {
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+        'OPTIONS': AWS_STORAGE_BUCKET_NAME.rstrip('/') + '/static',
+    },
+    'mediafiles': {
+        'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
+        'OPTIONS': AWS_STORAGE_BUCKET_NAME.rstrip('/') + '/media',
+    },
+}
+
+# Static Files (using 'staticfiles' storage from STORAGES)
+STATIC_URL = "https://%s/static/" % AWS_S3_CUSTOM_DOMAIN
+

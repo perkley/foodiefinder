@@ -9,6 +9,7 @@ pillow = "*"
 boto3 = "*"
 django-cognito-jwt = "*"
 psycopg2-binary = "*"
+django-storages = {extras = ["s3"], version = "*"}
 
 [dev-packages]
 

@@ -16,6 +16,10 @@ git pull origin main
 echo "Activating virtual environment..."
 source /home/ubuntu/env/bin/activate
 
+# Make the requirements.txt file
+pipenv requirements > requirements.txt
+pip install -r requirements.txt
+
 # Run Django management commands
 echo "Running Django management commands..."
 python manage.py collectstatic --noinput
