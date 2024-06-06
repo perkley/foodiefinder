@@ -22,7 +22,7 @@ class RenameUpload(object):
 rename_upload = RenameUpload()
 
 class AllergyMediaStorage(S3Boto3Storage):
-        location = 'media'
+        location = 'media/allergy'
 
 class Allergy(models.Model):
     class Meta:
