@@ -21,16 +21,18 @@ class RenameUpload(object):
 
 rename_upload = RenameUpload()
 
+class AllergyMediaStorage(S3Boto3Storage):
+        location = 'media'
 
 class Allergy(models.Model):
     class Meta:
         ordering = ['title']
-        verbose_name_plural = 'Allergies'
+        verbose_name_plural = 'Allergies'    
 
     def get_storage():
         if settings.ENVIRONMENT == 'production':
             # Use S3Boto3Storage for production (assuming settings are configured)
-            return S3Boto3Storage()
+            return AllergyMediaStorage()
         else:
             # Use FileSystemStorage for local development
             return FileSystemStorage(location=get_allergy_icon_dir(), base_url=f'{settings.MEDIA_URL}allergy/')
