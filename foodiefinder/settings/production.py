@@ -93,27 +93,27 @@ STORAGES = {
     'default': {
         'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
         'OPTIONS': {
-            'AWS_STORAGE_BUCKET_NAME': AWS_STORAGE_BUCKET_NAME,
-            'AWS_S3_CUSTOM_DOMAIN': AWS_S3_CUSTOM_DOMAIN,
-            'AWS_S3_OBJECT_PARAMETERS': AWS_S3_OBJECT_PARAMETERS,
+            'bucket_name': AWS_STORAGE_BUCKET_NAME,
+            'custom_domain': AWS_S3_CUSTOM_DOMAIN,
+            'object_parameters': AWS_S3_OBJECT_PARAMETERS,
         }
     },
     'staticfiles': {
         'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
         'OPTIONS': {
-            'AWS_STORAGE_BUCKET_NAME': AWS_STORAGE_BUCKET_NAME,
-            'AWS_S3_CUSTOM_DOMAIN': AWS_S3_CUSTOM_DOMAIN,
-            'AWS_S3_OBJECT_PARAMETERS': AWS_S3_OBJECT_PARAMETERS,
-            'AWS_LOCATION': 'static',
+            'bucket_name': AWS_STORAGE_BUCKET_NAME,
+            'custom_domain': AWS_S3_CUSTOM_DOMAIN,
+            'object_parameters': AWS_S3_OBJECT_PARAMETERS,
+            'location': 'static',
         }
     },
     'mediafiles': {
         'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage',
         'OPTIONS': {
-            'AWS_STORAGE_BUCKET_NAME': AWS_STORAGE_BUCKET_NAME,
-            'AWS_S3_CUSTOM_DOMAIN': AWS_S3_CUSTOM_DOMAIN,
-            'AWS_S3_OBJECT_PARAMETERS': AWS_S3_OBJECT_PARAMETERS,
-            'AWS_LOCATION': 'media',
+            'bucket_name': AWS_STORAGE_BUCKET_NAME,
+            'custom_domain': AWS_S3_CUSTOM_DOMAIN,
+            'object_parameters': AWS_S3_OBJECT_PARAMETERS,
+            'location': 'media',
         }
     },
 }
