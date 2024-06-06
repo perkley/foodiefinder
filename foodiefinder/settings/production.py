@@ -28,22 +28,31 @@ def get_aws_secret(secret_name):
     secret = get_secret_value_response['SecretString']
     return json.loads(secret)
 
-try:
-    # Fetch your secret values
-    aws_secrets_manager_name = get_local_secret('AWS_SECRETS_MANAGER_NAME')
-    secrets = get_aws_secret(aws_secrets_manager_name)
 
-    DEBUG = secrets['Debug'].lower() == 'true'
+# Fetch your secret values
+aws_secrets_manager_name = get_local_secret('AWS_SECRETS_MANAGER_NAME')
+secrets = get_aws_secret(aws_secrets_manager_name)
 
-    allowed_hosts_str = secrets['AllowedHosts']
-    ALLOWED_HOSTS = allowed_hosts_str.split(',')
+DEBUG = secrets['Debug'].lower() == 'true'
 
-    AWS_COGNITO_USER_POOL_ID = secrets['UserPoolId']
-    AWS_COGNITO_APP_CLIENT_ID = secrets['ClientId']
-    AWS_COGNITO_APP_CLIENT_SECRET = secrets['ClientSecret']
-    AWS_COGNITO_REGION = secrets['Region']
-    AWS_COGNITO_URL = secrets['CognitoUrl']
-    AWS_COGNITO_LOGIN_REDIRECT_URL = secrets['CognitoLoginRedirectUrl']
-    AWS_COGNITO_LOGOUT_REDIRECT_URL = secrets['CognitoLogoutRedirectUrl']
-except Exception as e:
-    exit
+allowed_hosts_str = secrets['AllowedHosts']
+ALLOWED_HOSTS = allowed_hosts_str.split(',')
+
+AWS_COGNITO_USER_POOL_ID = secrets['UserPoolId']
+AWS_COGNITO_APP_CLIENT_ID = secrets['ClientId']
+AWS_COGNITO_APP_CLIENT_SECRET = secrets['ClientSecret']
+AWS_COGNITO_REGION = secrets['Region']
+AWS_COGNITO_URL = secrets['CognitoUrl']
+AWS_COGNITO_LOGIN_REDIRECT_URL = secrets['CognitoLoginRedirectUrl']
+AWS_COGNITO_LOGOUT_REDIRECT_URL = secrets['CognitoLogoutRedirectUrl']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'foodiefinder', # Fill in with the database name you chose in the RDS creation form
+        'USER': 'postgres', # Fill in with the user name you chose in the RDS creation form
+        'PASSWORD': 'password', # Fill in with the database password you chose in the RDS creation form
+        'HOST': 'dbfoodiefinder.ctcccsi0cndb.us-east-1.rds.amazonaws.com', # Fill in with the endpoint found in RDS
+        'PORT': '5432', 
+    }
+}
