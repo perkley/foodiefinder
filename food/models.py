@@ -6,6 +6,7 @@ from django.core.files.storage import FileSystemStorage
 from food.utils import get_allergy_icon_dir
 from django.conf import settings
 from django.utils.html import mark_safe
+from storages.backends.s3boto3 import S3Boto3Storage
 
 @deconstructible
 class RenameUpload(object):
@@ -26,7 +27,15 @@ class Allergy(models.Model):
         ordering = ['title']
         verbose_name_plural = 'Allergies'
 
-    upload_storage = FileSystemStorage(location=get_allergy_icon_dir(), base_url=f'{settings.MEDIA_URL}allergy/')
+    def get_storage():
+        if settings.ENVIRONMENT == 'production':
+            # Use S3Boto3Storage for production (assuming settings are configured)
+            return S3Boto3Storage()
+        else:
+            # Use FileSystemStorage for local development
+            return FileSystemStorage(location=get_allergy_icon_dir(), base_url=f'{settings.MEDIA_URL}allergy/')
+    
+    upload_storage = get_storage() #FileSystemStorage(location=get_allergy_icon_dir(), base_url=f'{settings.MEDIA_URL}allergy/')
     title = models.CharField(max_length=75)
     icon_image = models.ImageField(upload_to=rename_upload, verbose_name='Allergy Icon Image', help_text='Upload 20x20 pixel image icon.', storage=upload_storage)
 
